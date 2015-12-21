@@ -1,0 +1,16 @@
+[
+{
+  "modid": "brawlmodularmod",
+  "name": "Brawl Modular Modification",
+  "description": "Core mod for various client mods.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://brawl.com",
+  "updateUrl": "",
+  "authorList": ["Phanta"],
+  "credits": "NomNuggetNom, because a good bit of this is modeled off his McPvP mod.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
