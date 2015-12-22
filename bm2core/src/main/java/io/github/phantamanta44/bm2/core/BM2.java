@@ -46,15 +46,15 @@ public class BM2 {
 	}
 	
 	public static void info(String format, Object... data) {
-		logger.info(format, data);
+		logger.info(String.format(format, data));
 	}
 	
 	public static void warn(String format, Object... data) {
-		logger.warn(format, data);
+		logger.warn(String.format(format, data));
 	}
 	
 	public static void error(String format, Object... data) {
-		logger.error(format, data);
+		logger.error(String.format(format, data));
 	}
 	
 }

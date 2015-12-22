@@ -21,7 +21,7 @@ public class IniData implements PropertyMap {
 		while ((line = streamIn.readLine()) != null) {
 			if (line.isEmpty() || line.startsWith(";") || line.startsWith("#") || !line.contains("="))
 				continue;
-			String[] keyValuePair = line.split("=", 1);
+			String[] keyValuePair = line.split("=", 2);
 			this.properties.put(keyValuePair[0].toLowerCase(), keyValuePair[1]);
 		}
 		streamIn.close();

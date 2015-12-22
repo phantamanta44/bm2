@@ -7,7 +7,6 @@ import io.github.phantamanta44.bm2.core.util.Mutable;
 import io.github.phantamanta44.bm2.core.util.PropertyMap;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
@@ -24,8 +23,8 @@ public class ModuleManager {
 	private static final Map<String, BM2Module> loadedMods = Maps.newHashMap();
 	private static final Map<String, Mutable<Boolean>> modStatusMap = Maps.newHashMap();
 	
-	private static void loadModule(String moduleId, Class<? extends BM2Module> modClass, PropertyMap data) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		BM2Module module = modClass.getConstructor().newInstance(data);
+	private static void loadModule(String moduleId, Class<? extends BM2Module> modClass, PropertyMap data) throws Exception {
+		BM2Module module = modClass.getConstructor(PropertyMap.class).newInstance(data);
 		loadedMods.put(moduleId, module);
 		modStatusMap.put(moduleId, new Mutable<>(false));
 		module.onLoad();
@@ -38,7 +37,7 @@ public class ModuleManager {
 		}
 		for (File file : moduleDir.listFiles()) {
 			String fname = file.getName();
-			if (!fname.matches(".*\\.jar"))
+			if (!fname.endsWith(".jar"))
 				continue;
 			BM2.info("Loading module %s...", fname);
 			try {
@@ -60,7 +59,7 @@ public class ModuleManager {
 					BM2.warn("Skipping module %s because the module id wasn't there.", fname);
 					continue;
 				}
-				LibLoader.loadByUrl(file.toURI().toURL());
+				LibLoader.loadByUrl(file.toURI().toURL(), ModuleManager.class.getClassLoader());
 				loadModule(moduleId, (Class<? extends BM2Module>)Class.forName(coreClass), metaProps);
 			} catch (Exception e) {
 				BM2.warn("Error loading module %s!", fname);

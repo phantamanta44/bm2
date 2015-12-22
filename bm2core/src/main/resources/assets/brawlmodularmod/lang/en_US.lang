@@ -1,5 +1,5 @@
 bm2.gui.mainmenu.version=Brawl Modular Modification %s
-bm2.gui.mainmenu.modcount=%s Modules Loaded
+bm2.gui.mainmenu.modcount=%s Module(s) Loaded
 
 bm2.server.lobby=Lobby
 bm2.server.war=MC-War
