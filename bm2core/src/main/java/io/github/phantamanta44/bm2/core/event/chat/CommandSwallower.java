@@ -46,8 +46,10 @@ public class CommandSwallower implements IFuture<String[]> {
 	
 	@SubscribeEvent
 	public void onChat(ClientChatReceivedEvent event) {
-		if (this.filter.test(event.message))
+		if (this.filter.test(event.message)) {
 			this.response[this.index++] = event.message.getUnformattedText();
+			event.setCanceled(true);
+		}
 		if (this.index >= this.response.length) {
 			this.done = true;
 			MinecraftForge.EVENT_BUS.unregister(this);

@@ -27,8 +27,8 @@ public class ModuleManager {
 	private static void loadModule(String moduleId, Class<? extends BM2Module> modClass, PropertyMap data) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		BM2Module module = modClass.getConstructor().newInstance(data);
 		loadedMods.put(moduleId, module);
-		module.onLoad();
 		modStatusMap.put(moduleId, new Mutable<>(false));
+		module.onLoad();
 	}
 
 	public static void searchForModules() {
