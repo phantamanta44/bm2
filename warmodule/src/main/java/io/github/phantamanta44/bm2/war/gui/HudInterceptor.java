@@ -14,7 +14,7 @@ import com.google.common.collect.Sets;
 public class HudInterceptor implements IListener {
 
 	private static final Set<ElementType> toCancel = Sets.newHashSet(
-		ElementType.EXPERIENCE
+		
 	);
 	
 	@ListenTo
@@ -25,9 +25,10 @@ public class HudInterceptor implements IListener {
 			event.setCanceled(true);
 			return;
 		}
-		if (event.type != ElementType.TEXT)
+		if (event.type != ElementType.EXPERIENCE)
 			return;
 		
+		event.setCanceled(true);
 		FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 		fr.drawString("YOU ARE ON WAR", 2, 2, 0xAA0000);
 	}

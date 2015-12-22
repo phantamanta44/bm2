@@ -31,7 +31,7 @@ public enum BrawlServer {
 	}
 	
 	public String getIpRegex() {
-		return "\\d+" + this.ipRoot.replaceAll("\\.", "\\.");
+		return "\\d+\\." + this.ipRoot.replaceAll("\\.", "\\.");
 	}
 	
 }

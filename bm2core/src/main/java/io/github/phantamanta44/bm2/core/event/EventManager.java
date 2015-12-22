@@ -1,6 +1,5 @@
 package io.github.phantamanta44.bm2.core.event;
 
-import io.github.phantamanta44.bm2.core.BM2;
 import io.github.phantamanta44.bm2.core.event.IListener.ListenTo;
 import io.github.phantamanta44.bm2.core.module.ModuleManager;
 
@@ -47,7 +46,6 @@ public class EventManager {
 		
 		public HandlerSignature(String moduleId, Class<? extends IListener> listenerClass) {
 			this.moduleId = moduleId;
-			BM2.info("creating signature for handler %s", listenerClass.getName());
 			Method[] methods = listenerClass.getMethods();
 			for (Method method : methods) {
 				if (method.isAnnotationPresent(ListenTo.class)
