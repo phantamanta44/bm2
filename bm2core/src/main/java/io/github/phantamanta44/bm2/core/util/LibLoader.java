@@ -1,10 +1,10 @@
 package io.github.phantamanta44.bm2.core.util;
 
+import io.github.phantamanta44.bm2.core.BM2;
+
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-
-import net.minecraftforge.fml.common.FMLLog;
 
 public class LibLoader {
 
@@ -22,16 +22,16 @@ public class LibLoader {
 			this.sysLoader = (URLClassLoader)ClassLoader.getSystemClassLoader();
 			this.addUrl = URLClassLoader.class.getMethod("addURL", URL.class);
 		} catch (Exception e) {
-			FMLLog.severe("Something completely broke in LibLoader!");
+			BM2.error("Something completely broke in LibLoader!");
 			e.printStackTrace();
 		}
 	}
 	
 	private void addURL(URL url) {
 		try {
-			this.addUrl.invoke(sysLoader, url);
+			this.addUrl.invoke(this.sysLoader, url);
 		} catch (Exception e) {
-			FMLLog.severe("Something completely broke in LibLoader!");
+			BM2.error("Something completely broke in LibLoader!");
 			e.printStackTrace();
 		}
 	}

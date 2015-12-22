@@ -1,0 +1,16 @@
+bm2.gui.mainmenu.version=Brawl Modular Modification %s
+bm2.gui.mainmenu.modcount=%s Modules Loaded
+
+bm2.server.lobby=Lobby
+bm2.server.war=MC-War
+bm2.server.warz=MC-WarZ
+bm2.server.creative=Creative
+bm2.server.pvp=Survival PvP
+bm2.server.party=Minecraft Party
+bm2.server.skywars=Skywars
+bm2.server.minestrike=MineStrike
+bm2.server.ctf=Capture the Flag
+bm2.server.hg=Hardcore Games
+bm2.server.build=Minecraft Build
+bm2.server.kitpvp=KitBrawl
+bm2.server.event=Event Server

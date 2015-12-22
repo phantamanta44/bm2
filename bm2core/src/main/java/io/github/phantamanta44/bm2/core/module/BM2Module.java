@@ -1,10 +1,20 @@
 package io.github.phantamanta44.bm2.core.module;
 
+import io.github.phantamanta44.bm2.core.util.PropertyMap;
+
+import java.util.function.Predicate;
+
 /**
- * Parent class of all modules.
+ * Parent class of all modules. Override {@link #onLoad()} instead of writing a constructor.
  * @author Phanta
  */
 public class BM2Module {
+	
+	public final PropertyMap meta;
+	
+	public BM2Module(PropertyMap data) {
+		this.meta = data;
+	}
 	
 	/**
 	 * Called immediately after construction.
@@ -36,10 +46,10 @@ public class BM2Module {
 	
 	/**
 	 * Defines which servers this module is enabled on.
-	 * @return	A regex pattern for the server IP.
+	 * @return	A {@link java.util.function.Predicate Predicate} consuming the server IP.
 	 */
-	public String getEnablementPattern() {
-		return ".*";
+	public Predicate<String> getEnablementConditions() {
+		return ip -> true;
 	}
 	
 }
