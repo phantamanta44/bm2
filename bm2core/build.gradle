@@ -24,6 +24,9 @@ version = "1.0.0"
 group= "io.github.phantamanta44.bm2" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "brawlmodularmod"
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 minecraft {
     version = "1.8-11.14.4.1563"
     runDir = "run"
