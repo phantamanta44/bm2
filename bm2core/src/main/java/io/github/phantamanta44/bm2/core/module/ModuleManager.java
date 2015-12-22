@@ -7,6 +7,7 @@ import io.github.phantamanta44.bm2.core.util.Mutable;
 import io.github.phantamanta44.bm2.core.util.PropertyMap;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
@@ -79,12 +80,25 @@ public class ModuleManager {
 	}
 	
 	public static void ipUpdate(String ip) {
+		BM2.info("Change detected to %s. Updating modules...", ip);
 		for (Entry<String, BM2Module> module : loadedMods.entrySet()) {
-			if (module.getValue().getEnablementConditions().test(ip))
+			if (module.getValue().getEnablementConditions().test(ip)) {
 				modStatusMap.get(module.getKey()).setValue(true);
-			else
+				module.getValue().onEnable();
+			}
+			else {
 				modStatusMap.get(module.getKey()).setValue(false);
+				module.getValue().onDisable();
+			}
 		}
+		BM2.info("E: %s", Arrays.toString(modStatusMap.entrySet().stream()
+			.filter(entry -> entry.getValue().getValue())
+			.map(entry -> entry.getKey())
+			.toArray(size -> new String[size])));
+		BM2.info("D: %s", Arrays.toString(modStatusMap.entrySet().stream()
+			.filter(entry -> !entry.getValue().getValue())
+			.map(entry -> entry.getKey())
+			.toArray(size -> new String[size])));
 	}
 	
 }

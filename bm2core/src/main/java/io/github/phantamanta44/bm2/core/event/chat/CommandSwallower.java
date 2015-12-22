@@ -1,5 +1,6 @@
 package io.github.phantamanta44.bm2.core.event.chat;
 
+import io.github.phantamanta44.bm2.core.BM2;
 import io.github.phantamanta44.bm2.core.util.IFuture;
 
 import java.util.function.Consumer;
@@ -40,6 +41,7 @@ public class CommandSwallower implements IFuture<String[]> {
 	}
 	
 	public void send() {
+		BM2.info("Dispatching CommandSwallower with msg \"%s\"", this.command);
 		MinecraftForge.EVENT_BUS.register(this);
 		Minecraft.getMinecraft().thePlayer.sendChatMessage(this.command);
 	}
@@ -54,6 +56,7 @@ public class CommandSwallower implements IFuture<String[]> {
 			this.done = true;
 			MinecraftForge.EVENT_BUS.unregister(this);
 			this.callback.accept(this.response);
+			BM2.info("CommandSwallower \"%s\" closed", this.command);
 		}
 	}
 	
@@ -68,8 +71,9 @@ public class CommandSwallower implements IFuture<String[]> {
 	}
 
 	@Override
-	public void promise(Consumer<String[]> callback) {
+	public CommandSwallower promise(Consumer<String[]> callback) {
 		this.callback = callback;
+		return this;
 	}
 	
 }

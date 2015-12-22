@@ -8,6 +8,6 @@ public interface IFuture<T> {
 	
 	public T getResult();
 	
-	public void promise(Consumer<T> callback);
+	public IFuture<T> promise(Consumer<T> callback);
 	
 }
