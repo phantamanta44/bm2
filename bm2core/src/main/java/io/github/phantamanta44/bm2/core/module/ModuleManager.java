@@ -82,11 +82,11 @@ public class ModuleManager {
 	public static void ipUpdate(String ip) {
 		BM2.info("Change detected to %s. Updating modules...", ip);
 		for (Entry<String, BM2Module> module : loadedMods.entrySet()) {
-			if (module.getValue().getEnablementConditions().test(ip)) {
+			if (module.getValue().getEnablementConditions().test(ip) && !modStatusMap.get(module.getKey()).getValue()) {
 				modStatusMap.get(module.getKey()).setValue(true);
 				module.getValue().onEnable();
 			}
-			else {
+			else if (modStatusMap.get(module.getKey()).getValue()) {
 				modStatusMap.get(module.getKey()).setValue(false);
 				module.getValue().onDisable();
 			}
