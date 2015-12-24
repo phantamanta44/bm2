@@ -37,7 +37,7 @@ public class TextNotification implements INotification {
 	 * @param colour	Text colour.
 	 */
 	public TextNotification(String text, int colour) {
-		this(text, colour, 3600);
+		this(text, colour, 4200);
 	}
 
 	/**
@@ -85,7 +85,6 @@ public class TextNotification implements INotification {
 		wr.addVertexWithUV(0D, (double)y, -90D, 0D, 0D);
 		tess.draw();
 		fr.drawStringWithShadow(this.text, 4F, (float)(y + 4), colour | ((int)Math.max(1F, fade * 255F) << 24));
-		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
 	}
 
