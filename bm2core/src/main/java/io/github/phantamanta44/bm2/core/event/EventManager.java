@@ -13,12 +13,21 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+/**
+ * Manages and distributes events to handlers.
+ * @author Phanta
+ */
 @SuppressWarnings("unchecked")
 public class EventManager {
 
 	private static final Map<Class<? extends IListener>, HandlerSignature> handlerSigMap = Maps.newHashMap();
 	private static final List<IListener> handlers = Lists.newArrayList();
 	
+	/**
+	 * Register an {@link io.github.phantamanta44.bm2.core.event.IListener IListener}.
+	 * @param moduleId	The module id for the registering module.
+	 * @param handler	The handler itself.
+	 */
 	public static void registerHandler(String moduleId, IListener handler) {
 		handlers.add(handler);
 		Class<? extends IListener> handlerClass = handler.getClass();

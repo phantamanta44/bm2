@@ -4,6 +4,7 @@ import io.github.phantamanta44.bm2.core.event.EventManager;
 import io.github.phantamanta44.bm2.core.event.world.WorldChangeListener;
 import io.github.phantamanta44.bm2.core.gui.TitleScreenInterceptor;
 import io.github.phantamanta44.bm2.core.module.ModuleManager;
+import io.github.phantamanta44.bm2.core.notification.NotificationManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -31,6 +32,7 @@ public class BM2 {
 		FMLCommonHandler.instance().bus().register(eventManager);
 		MinecraftForge.EVENT_BUS.register(new WorldChangeListener());
 		MinecraftForge.EVENT_BUS.register(new TitleScreenInterceptor());
+		MinecraftForge.EVENT_BUS.register(new NotificationManager());
 		info("BM2 enabled. Searching for valid modules...");
 		ModuleManager.searchForModules();
 	}

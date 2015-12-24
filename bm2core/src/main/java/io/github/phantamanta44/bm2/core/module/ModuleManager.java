@@ -9,11 +9,11 @@ import io.github.phantamanta44.bm2.core.util.PropertyMap;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 import com.google.common.collect.Maps;
 
@@ -61,6 +61,7 @@ public class ModuleManager {
 					continue;
 				}
 				LibLoader.loadByUrl(file.toURI().toURL(), ModuleManager.class.getClassLoader());
+				FMLClientHandler.instance().addModAsResource(new ModuleContainer(file));
 				loadModule(moduleId, (Class<? extends BM2Module>)Class.forName(coreClass), metaProps);
 			} catch (Exception e) {
 				BM2.warn("Error loading module %s!", fname);
@@ -81,16 +82,17 @@ public class ModuleManager {
 	
 	public static void ipUpdate(String ip) {
 		BM2.info("Change detected to %s. Updating modules...", ip);
-		for (Entry<String, BM2Module> module : loadedMods.entrySet()) {
-			if (module.getValue().getEnablementConditions().test(ip) && !modStatusMap.get(module.getKey()).getValue()) {
-				modStatusMap.get(module.getKey()).setValue(true);
-				module.getValue().onEnable();
+		loadedMods.forEach((k, v) -> {
+			boolean shouldEnable = v.getEnablementConditions().test(ip);
+			if (shouldEnable && !modStatusMap.get(k).getValue()) {
+				modStatusMap.get(k).setValue(true);
+				v.onEnable();
 			}
-			else if (modStatusMap.get(module.getKey()).getValue()) {
-				modStatusMap.get(module.getKey()).setValue(false);
-				module.getValue().onDisable();
+			else if (!shouldEnable && modStatusMap.get(k).getValue()) {
+				modStatusMap.get(k).setValue(false);
+				v.onDisable();
 			}
-		}
+		});
 		BM2.info("E: %s", Arrays.toString(modStatusMap.entrySet().stream()
 			.filter(entry -> entry.getValue().getValue())
 			.map(entry -> entry.getKey())
