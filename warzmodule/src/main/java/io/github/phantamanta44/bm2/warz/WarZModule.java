@@ -1,6 +1,5 @@
 package io.github.phantamanta44.bm2.warz;
 
-import io.github.phantamanta44.bm2.core.BM2;
 import io.github.phantamanta44.bm2.core.BrawlServer;
 import io.github.phantamanta44.bm2.core.event.EventManager;
 import io.github.phantamanta44.bm2.core.module.BM2Module;
@@ -24,7 +23,6 @@ public class WarZModule extends BM2Module {
 	
 	@Override
 	public void onLoad() {
-		BM2.info("The template module was loaded!");
 		Minecraft mc = Minecraft.getMinecraft();
 		EventManager.registerHandler(MOD_ID, new HudCompass(mc));
 		EventManager.registerHandler(MOD_ID, new HudInfo(mc));
