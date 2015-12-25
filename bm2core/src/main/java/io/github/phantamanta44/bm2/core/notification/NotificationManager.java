@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.google.common.collect.Lists;
@@ -18,7 +19,7 @@ public class NotificationManager {
 		active.add(0, new NotificationState(notification));
 	}
 	
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOW)
 	public void renderIngameGui(RenderGameOverlayEvent.Post event) {
 		if (event.type != ElementType.EXPERIENCE)
 			return;
