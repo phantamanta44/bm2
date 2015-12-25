@@ -5,21 +5,28 @@ import io.github.phantamanta44.bm2.core.event.chat.CommandSwallower;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
 import org.lwjgl.opengl.GL11;
 
 public class HudInfo implements IListener {
+	
+	private static final ResourceLocation WARZ_WIDGETS = new ResourceLocation("brawlmodularmod", "textures/gui/widgets.png");
+	private static final ResourceLocation DIR_HUD = new ResourceLocation("brawlmodularmod", "textures/gui/direction.png");
 	
 	private Minecraft mc;
 	
@@ -81,6 +88,9 @@ public class HudInfo implements IListener {
 		
 		this.renderWarns(warn, xBounds, fr);
 		
+		this.drawThirst(xBounds, yBounds, this.mc.thePlayer);
+		this.drawDirectionHud(xBounds, yBounds, this.mc.thePlayer);
+		
 		fr.drawStringWithShadow("Zone " + getZone(), 4, yBounds - fr.FONT_HEIGHT - 4, 0xffececec);
 	}
 	
@@ -96,7 +106,56 @@ public class HudInfo implements IListener {
 		GlStateManager.popMatrix();
 	}
 	
-	public String secToString(int seconds) {
+	private void drawThirst(int width, int height, EntityPlayer pl) {
+		GuiIngame gig = this.mc.ingameGUI;
+		GlStateManager.enableBlend();
+		int left = width / 2 - 91;
+		int top = height - 39;
+		int level = (int)Math.ceil(pl.experience * 20F);
+		Random rand = new Random();
+		
+		this.mc.getTextureManager().bindTexture(WARZ_WIDGETS);
+		for (int i = 0; i < 10; ++i) {
+			int idx = i * 2 + 1;
+			int x = left - i * 8 - 9;
+			int y = top;
+
+			if (pl.experience <= 0.26 && gig.getUpdateCounter() % (level * 3 + 1) == 0)
+				y = top + (rand.nextInt(3) - 1);
+
+			gig.drawTexturedModalRect(x, y, 0, 0, 9, 9);
+
+			if (idx < level)
+				gig.drawTexturedModalRect(x, y, 9, 0, 9, 9);
+			else if (idx == level)
+				gig.drawTexturedModalRect(x, y, 18, 0, 9, 9);
+		}
+
+		GlStateManager.disableBlend();
+	}
+	
+	private void drawDirectionHud(int width, int height, EntityPlayer pl) {
+		GuiIngame gig = this.mc.ingameGUI;
+		short barWidth = 182;
+		
+		float deg = (630F - pl.rotationYaw) % 360F;
+		float relN = (deg + 630F) % 360F;
+		int shift = (int)((float)barWidth * (relN / 180F));
+		int shiftN = shift >= barWidth ? shift - 2 * barWidth : shift;
+		int widthN = Math.abs(shift - barWidth);
+		int shiftS = shift - barWidth;
+		int widthS = barWidth - Math.abs(shift - barWidth);
+		
+		GlStateManager.enableBlend();
+		this.mc.getTextureManager().bindTexture(DIR_HUD);
+		int top = height - 32 + 3;
+		int left = width / 2- 91;
+		gig.drawTexturedModalRect(left + shiftN, top, 0, 27, widthN, 4);
+		gig.drawTexturedModalRect(left + shiftS, top, 0, 36, widthS, 4);
+		GlStateManager.disableBlend();
+	}
+	
+	public static String secToString(int seconds) {
 		int sec = seconds % 60;
 		int min = (seconds - sec) / 60;
 		return String.format("%d:%02d", min, sec);
