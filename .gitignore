@@ -1,3 +1,7 @@
+# Convenience script I wrote for myself
+libcopy.java
+libcopy.class
+
 *.pydevproject
 .metadata
 .gradle
