@@ -5,7 +5,7 @@ import io.github.phantamanta44.bm2.core.BrawlServer;
 import io.github.phantamanta44.bm2.core.module.BM2Module;
 import io.github.phantamanta44.bm2.core.notification.NotificationManager;
 import io.github.phantamanta44.bm2.core.notification.TextNotification;
-import io.github.phantamanta44.bm2.core.util.PropertyMap;
+import io.github.phantamanta44.bm2.core.util.IPropertyMap;
 
 import java.util.function.Predicate;
 
@@ -13,7 +13,7 @@ public class TemplateModule extends BM2Module {
 
 	public static final String MOD_ID = "tempmod";
 	
-	public TemplateModule(PropertyMap data) {
+	public TemplateModule(IPropertyMap data) {
 		super(data);
 	}
 	

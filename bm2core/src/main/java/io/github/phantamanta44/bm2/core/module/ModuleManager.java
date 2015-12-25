@@ -4,7 +4,7 @@ import io.github.phantamanta44.bm2.core.BM2;
 import io.github.phantamanta44.bm2.core.util.IniData;
 import io.github.phantamanta44.bm2.core.util.LibLoader;
 import io.github.phantamanta44.bm2.core.util.Mutable;
-import io.github.phantamanta44.bm2.core.util.PropertyMap;
+import io.github.phantamanta44.bm2.core.util.IPropertyMap;
 
 import java.io.File;
 import java.util.Arrays;
@@ -24,8 +24,8 @@ public class ModuleManager {
 	private static final Map<String, BM2Module> loadedMods = Maps.newHashMap();
 	private static final Map<String, Mutable<Boolean>> modStatusMap = Maps.newHashMap();
 	
-	private static void loadModule(String moduleId, Class<? extends BM2Module> modClass, PropertyMap data) throws Exception {
-		BM2Module module = modClass.getConstructor(PropertyMap.class).newInstance(data);
+	private static void loadModule(String moduleId, Class<? extends BM2Module> modClass, IPropertyMap data) throws Exception {
+		BM2Module module = modClass.getConstructor(IPropertyMap.class).newInstance(data);
 		loadedMods.put(moduleId, module);
 		modStatusMap.put(moduleId, new Mutable<>(false));
 		module.onLoad();
@@ -48,7 +48,7 @@ public class ModuleManager {
 					BM2.warn("Skipping module %s because there was no module.cfg.", fname);
 					continue;
 				}
-				PropertyMap metaProps = new IniData(asJar.getInputStream(metaFile));
+				IPropertyMap metaProps = new IniData(asJar.getInputStream(metaFile));
 				asJar.close();
 				String coreClass;
 				if ((coreClass = metaProps.get("coreclass")) == null) {

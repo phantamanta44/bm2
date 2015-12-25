@@ -4,7 +4,7 @@ import io.github.phantamanta44.bm2.core.BM2;
 import io.github.phantamanta44.bm2.core.BrawlServer;
 import io.github.phantamanta44.bm2.core.event.EventManager;
 import io.github.phantamanta44.bm2.core.module.BM2Module;
-import io.github.phantamanta44.bm2.core.util.PropertyMap;
+import io.github.phantamanta44.bm2.core.util.IPropertyMap;
 import io.github.phantamanta44.bm2.war.event.chat.ChatListener;
 import io.github.phantamanta44.bm2.war.gui.HudInterceptor;
 
@@ -14,7 +14,7 @@ public class WarModule extends BM2Module {
 
 	public static final String MOD_ID = "core.war";
 	
-	public WarModule(PropertyMap data) {
+	public WarModule(IPropertyMap data) {
 		super(data);
 	}
 	

@@ -1,6 +1,6 @@
 package io.github.phantamanta44.bm2.core.module;
 
-import io.github.phantamanta44.bm2.core.util.PropertyMap;
+import io.github.phantamanta44.bm2.core.util.IPropertyMap;
 
 import java.util.function.Predicate;
 
@@ -10,9 +10,9 @@ import java.util.function.Predicate;
  */
 public class BM2Module {
 	
-	public final PropertyMap meta;
+	public final IPropertyMap meta;
 	
-	public BM2Module(PropertyMap data) {
+	public BM2Module(IPropertyMap data) {
 		this.meta = data;
 	}
 	

@@ -1,6 +1,6 @@
 package io.github.phantamanta44.bm2.core.util;
 
-public interface PropertyMap {
+public interface IPropertyMap {
 
 	public String get(String key);
 	

@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-public class IniData implements PropertyMap {
+public class IniData implements IPropertyMap {
 	
 	private final Map<String, String> properties = Maps.newHashMap();
 
