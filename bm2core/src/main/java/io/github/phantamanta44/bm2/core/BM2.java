@@ -44,7 +44,12 @@ public class BM2 {
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				ModuleManager.executeShutdown();
+			}
+		});
 	}
 	
 	public static void info(String format, Object... data) {

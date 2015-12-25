@@ -1,10 +1,10 @@
 package io.github.phantamanta44.bm2.core.module;
 
 import io.github.phantamanta44.bm2.core.BM2;
+import io.github.phantamanta44.bm2.core.util.IPropertyMap;
 import io.github.phantamanta44.bm2.core.util.IniData;
 import io.github.phantamanta44.bm2.core.util.LibLoader;
 import io.github.phantamanta44.bm2.core.util.Mutable;
-import io.github.phantamanta44.bm2.core.util.IPropertyMap;
 
 import java.io.File;
 import java.util.Arrays;
@@ -101,6 +101,14 @@ public class ModuleManager {
 			.filter(entry -> !entry.getValue().getValue())
 			.map(entry -> entry.getKey())
 			.toArray(size -> new String[size])));
+	}
+
+	public static void executeShutdown() {
+		try {
+			loadedMods.forEach((k, v) -> v.onUnload());
+		} catch (Exception e) {
+			// NO-OP
+		}
 	}
 	
 }
