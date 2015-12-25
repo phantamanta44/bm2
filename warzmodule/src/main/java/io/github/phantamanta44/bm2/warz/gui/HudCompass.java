@@ -3,7 +3,6 @@ package io.github.phantamanta44.bm2.warz.gui;
 import io.github.phantamanta44.bm2.core.event.IListener;
 import io.github.phantamanta44.bm2.core.util.Vector2;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -19,6 +18,9 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
+import com.google.common.collect.Lists;
+
+@SuppressWarnings("unchecked")
 public class HudCompass implements IListener {
 	
 	private static final ResourceLocation COMPASS_LOC = new ResourceLocation("zcubed", "textures/gui/compass.png");
@@ -62,7 +64,8 @@ public class HudCompass implements IListener {
 		Tessellator tess = Tessellator.getInstance();
 		WorldRenderer wr = tess.getWorldRenderer();
 		wr.startDrawingQuads();
-		wr.addVertexWithUV(boxCorners.get(0).getX(), boxCorners.get(0).getY(), -90.0F, 0, 1);
+		wr.addVertexWithUV(boxCorners.get(0).
+				getX(), boxCorners.get(0).getY(), -90.0F, 0, 1);
 		wr.addVertexWithUV(boxCorners.get(1).getX(), boxCorners.get(1).getY(), -90.0F, 1, 1);
 		wr.addVertexWithUV(boxCorners.get(2).getX(), boxCorners.get(2).getY(), -90.0F, 1, 0);
 		wr.addVertexWithUV(boxCorners.get(3).getX(), boxCorners.get(3).getY(), -90.0F, 0, 0);
@@ -85,7 +88,7 @@ public class HudCompass implements IListener {
 	}
 	
 	public List<Vector2<Integer>> calculateCorners(Vector2<Integer> o, double rot) {
-		List<Vector2<Integer>> ret = new ArrayList<Vector2<Integer>>(4);
+		List<Vector2<Integer>> ret = Lists.newArrayList(null, null, null, null);
 		
 		// POINT 3, 4
 		int xOffset1 = (int)(18 * Math.cos(rot));

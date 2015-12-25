@@ -24,6 +24,7 @@ public class HudInfo implements IListener {
 	private Minecraft mc;
 	
 	public static String currentZone;
+	private static boolean zoneCheck = false;
 	
 	public HudInfo(Minecraft minecraft) {
 		this.mc = minecraft;
@@ -103,11 +104,15 @@ public class HudInfo implements IListener {
 	
 	public static String getZone() {
 		if (currentZone == null) {
-			new CommandSwallower("/zone", "(Now entering|You are in) zone: \\d").promise(r -> {
-				Matcher m = Pattern.compile("(Now entering|You are in) zone: (\\d)").matcher(r[0]);
-				m.matches();
-				currentZone = m.group(2);
-			});
+			if (!zoneCheck) {
+				zoneCheck = true;
+				new CommandSwallower("/zone", "(Now entering|You are in) zone: \\d").promise(r -> {
+					zoneCheck = false;
+					Matcher m = Pattern.compile("(Now entering|You are in) zone: (\\d)").matcher(r[0]);
+					m.matches();
+					currentZone = m.group(2);
+				});
+			}
 			return "Unknown";
 		}
 		return currentZone;

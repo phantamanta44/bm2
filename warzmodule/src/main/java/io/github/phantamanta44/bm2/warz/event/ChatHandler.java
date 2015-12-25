@@ -24,10 +24,6 @@ public class ChatHandler implements IListener {
 		
 		if (rawMsg.matches("^Request sent to .*"))
 			TPTimer.requestSent();
-		
-		if (msg.matches(".*" + ChatFormatting.ITALIC + ".*Welcome to"))
-			HudInfo.getZone();
-		
 	}
 	
 }
