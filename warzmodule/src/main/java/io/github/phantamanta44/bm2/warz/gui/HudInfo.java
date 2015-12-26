@@ -26,7 +26,6 @@ import org.lwjgl.opengl.GL11;
 public class HudInfo implements IListener {
 	
 	private static final ResourceLocation WARZ_WIDGETS = new ResourceLocation("brawlmodularmod", "textures/gui/widgets.png");
-	private static final ResourceLocation DIR_HUD = new ResourceLocation("brawlmodularmod", "textures/gui/direction.png");
 	
 	private Minecraft mc;
 	
@@ -88,6 +87,7 @@ public class HudInfo implements IListener {
 		
 		this.renderWarns(warn, xBounds, fr);
 		
+		this.mc.getTextureManager().bindTexture(WARZ_WIDGETS);
 		this.drawThirst(xBounds, yBounds, this.mc.thePlayer);
 		this.drawDirectionHud(xBounds, yBounds, this.mc.thePlayer);
 		
@@ -109,12 +109,12 @@ public class HudInfo implements IListener {
 	private void drawThirst(int width, int height, EntityPlayer pl) {
 		GuiIngame gig = this.mc.ingameGUI;
 		GlStateManager.enableBlend();
-		int left = width / 2 - 91;
-		int top = height - 39;
+		GlStateManager.color(1F, 1F, 1F, 1F);
+		int left = width / 2 + 91;
+		int top = height - 49;
 		int level = (int)Math.ceil(pl.experience * 20F);
 		Random rand = new Random();
 		
-		this.mc.getTextureManager().bindTexture(WARZ_WIDGETS);
 		for (int i = 0; i < 10; ++i) {
 			int idx = i * 2 + 1;
 			int x = left - i * 8 - 9;
@@ -147,11 +147,10 @@ public class HudInfo implements IListener {
 		int widthS = barWidth - Math.abs(shift - barWidth);
 		
 		GlStateManager.enableBlend();
-		this.mc.getTextureManager().bindTexture(DIR_HUD);
 		int top = height - 32 + 3;
 		int left = width / 2- 91;
-		gig.drawTexturedModalRect(left + shiftN, top, 0, 27, widthN, 4);
-		gig.drawTexturedModalRect(left + shiftS, top, 0, 36, widthS, 4);
+		gig.drawTexturedModalRect(Math.max(left, left + shiftN), top, -Math.min(shiftN, 0), 27, widthN, 4);
+		gig.drawTexturedModalRect(Math.max(left, left + shiftS), top, -Math.min(shiftS, 0), 36, widthS, 4);
 		GlStateManager.disableBlend();
 	}
 	
