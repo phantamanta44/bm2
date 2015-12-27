@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 public class NameLookup implements IFuture<NameHistory> {
@@ -38,9 +38,9 @@ public class NameLookup implements IFuture<NameHistory> {
 	@Override
 	public void dispatch() {
 		if (this.id != null)
-			requestHist(this.id.toString().replaceAll("-", ""));
+			this.requestHist(this.id.toString().replaceAll("-", ""));
 		else if (this.name != null)
-			requestId(this.name);
+			this.requestId(this.name);
 		else
 			throw new IllegalStateException("Improperly constructed NameLookup!");
 	}
@@ -52,17 +52,17 @@ public class NameLookup implements IFuture<NameHistory> {
 				try {
 					JsonParser parser = new JsonParser();
 					BufferedReader in = new BufferedReader(new InputStreamReader(new URL(String.format(ID_REQ, name)).openStream()));
-					JsonObject idResp = parser.parse(in).getAsJsonObject();
+					JsonElement idResp = parser.parse(in);
 					in.close();
-					if (idResp.get("error") != null) {
+					if (idResp.isJsonNull()) {
 						finish(new NameEntry[0]);
 						return;
 					}
-					requestHist(idResp.get("id").getAsString());
+					requestHist(idResp.getAsJsonObject().get("id").getAsString());
 				} catch (Exception e) {
 					BM2.warn("Could not complete name lookup!");
 					e.printStackTrace();
-					finish(null);
+					finishNull();
 				}
 			}
 		}.start();
