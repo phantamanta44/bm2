@@ -1,5 +1,7 @@
 package io.github.phantamanta44.bm2.core.module;
 
+import io.github.phantamanta44.bm2.core.util.IPropertyMap;
+
 import java.io.File;
 
 import net.minecraftforge.fml.client.FMLFileResourcePack;
@@ -8,19 +10,21 @@ import net.minecraftforge.fml.common.DummyModContainer;
 public class ModuleContainer extends DummyModContainer {
 	
 	private final File file;
+	private final IPropertyMap data;
 	
-	public ModuleContainer(File file) {
+	public ModuleContainer(File file, IPropertyMap data) {
 		this.file = file;
+		this.data = data;
 	}
 	
 	@Override
 	public String getName() {
-		return "BM2Module";
+		return data.getSafely("name");
 	}
 	
 	@Override
 	public String getModId() {
-		return "brawlmodularmod";
+		return data.get("moduleId");
 	}
 	
 	@Override

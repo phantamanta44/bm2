@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 
 public class WarModule extends BM2Module {
 
-	public static final String MOD_ID = "core.war";
+	public static final String MOD_ID = "core_war";
 	
 	public WarModule(IPropertyMap data) {
 		super(data);

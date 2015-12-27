@@ -25,7 +25,7 @@ import org.lwjgl.opengl.GL11;
 
 public class HudInfo implements IListener {
 	
-	private static final ResourceLocation WARZ_WIDGETS = new ResourceLocation("brawlmodularmod", "textures/gui/widgets.png");
+	private static final ResourceLocation WARZ_WIDGETS = new ResourceLocation("core_warz", "textures/gui/widgets.png");
 	
 	private Minecraft mc;
 	

@@ -15,7 +15,7 @@ import net.minecraft.client.Minecraft;
 
 public class WarZModule extends BM2Module {
 
-	public static final String MOD_ID = "core.warz";
+	public static final String MOD_ID = "core_warz";
 	
 	public WarZModule(IPropertyMap data) {
 		super(data);

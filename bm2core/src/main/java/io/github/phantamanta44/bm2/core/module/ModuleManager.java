@@ -60,8 +60,12 @@ public class ModuleManager {
 					BM2.warn("Skipping module %s because the module id wasn't there.", fname);
 					continue;
 				}
+				if (!moduleId.matches("[a-zA-Z0-9_]*")) {
+					BM2.warn("Skipping module %s because the module id was invalid.", fname);
+					continue;
+				}
 				LibLoader.loadByUrl(file.toURI().toURL(), ModuleManager.class.getClassLoader());
-				FMLClientHandler.instance().addModAsResource(new ModuleContainer(file));
+				FMLClientHandler.instance().addModAsResource(new ModuleContainer(file, metaProps));
 				loadModule(moduleId, (Class<? extends BM2Module>)Class.forName(coreClass), metaProps);
 			} catch (Exception e) {
 				BM2.warn("Error loading module %s!", fname);

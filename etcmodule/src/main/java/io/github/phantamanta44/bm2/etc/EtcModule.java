@@ -11,7 +11,7 @@ import net.minecraftforge.client.ClientCommandHandler;
 
 public class EtcModule extends BM2Module {
 
-	public static final String MOD_ID = "core.etc";
+	public static final String MOD_ID = "core_etc";
 	
 	public EtcModule(IPropertyMap data) {
 		super(data);
