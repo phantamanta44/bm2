@@ -1,5 +1,7 @@
 package io.github.phantamanta44.bm2.etc.command;
 
+import io.github.phantamanta44.bm2.core.lang.Lang;
+import io.github.phantamanta44.bm2.etc.EtcLang;
 import io.github.phantamanta44.bm2.etc.NameLookup;
 
 import java.text.DateFormat;
@@ -23,8 +25,8 @@ import com.google.common.collect.Lists;
 public class NameLookupCommand implements ICommand {
 
 	private static final String USERNAME_REGEX = "[a-zA-Z0-9_]{3,16}";
-	private static final String RESP_HEADER = EnumChatFormatting.AQUA + "<== NAME HISTORY FOR %s ========>";
-	private static final String RESP_DATA = EnumChatFormatting.GRAY + "%1$16s" + EnumChatFormatting.DARK_GRAY + " | " + EnumChatFormatting.GRAY + "%s";
+	private static final String RESP_HEADER = EnumChatFormatting.AQUA + "<== %s ========>";
+	private static final String RESP_DATA = EnumChatFormatting.GRAY + "%s" + EnumChatFormatting.DARK_GRAY + " | " + EnumChatFormatting.GRAY + "%s";
 	private static final DateFormat DATE_FORMAT = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.FULL);
 	
 	@Override
@@ -52,12 +54,20 @@ public class NameLookupCommand implements ICommand {
 		if (args.length != 1 || !args[0].matches(USERNAME_REGEX))
 			throw new SyntaxErrorException(getCommandUsage(sender));
 		new NameLookup(args[0]).promise(r -> {
-			sender.addChatMessage(new ChatComponentText(String.format(RESP_HEADER, args[0])));
+			if (r == null) {
+				sender.addChatMessage(new ChatComponentText(Lang.get(EtcLang.NL_ERROR)));
+				return;
+			}
+			if (r.history.isEmpty()) {
+				sender.addChatMessage(new ChatComponentText(Lang.get(EtcLang.NL_FALSE)));
+				return;
+			}
+			sender.addChatMessage(new ChatComponentText(String.format(String.format(RESP_HEADER, Lang.get(EtcLang.NL_HEADER)), r.history.get(r.history.size() - 1).name)));
 			r.history.forEach(e -> {
 				String date = e.changeDate > 0L ? DATE_FORMAT.format(new Date(e.changeDate)) : "Initial name";
 				sender.addChatMessage(new ChatComponentText(String.format(RESP_DATA, e.name, date)));
 			});
-		});
+		}).dispatch();
 	}
 
 	@Override

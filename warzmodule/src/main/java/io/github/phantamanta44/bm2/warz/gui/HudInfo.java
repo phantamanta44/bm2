@@ -169,7 +169,7 @@ public class HudInfo implements IListener {
 					Matcher m = Pattern.compile("(Now entering|You are in) zone: (\\d)").matcher(r[0]);
 					m.matches();
 					currentZone = m.group(2);
-				});
+				}).dispatch();
 			}
 			return "Unknown";
 		}

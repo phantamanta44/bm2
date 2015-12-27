@@ -37,10 +37,10 @@ public class CommandSwallower implements IFuture<String[]> {
 		this.command = command;
 		this.filter = filter;
 		this.response = new String[lineCount];
-		this.send();
 	}
 	
-	public void send() {
+	@Override
+	public void dispatch() {
 		BM2.info("Dispatching CommandSwallower with msg \"%s\"", this.command);
 		MinecraftForge.EVENT_BUS.register(this);
 		Minecraft.getMinecraft().thePlayer.sendChatMessage(this.command);

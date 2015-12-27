@@ -1,2 +1,5 @@
 bm2.mod.etc.friend.login=%s logged into Brawl.
 bm2.mod.etc.friend.join=%s joined %s.
+bm2.mod.etc.name.header=NAME HISTORY FOR %s
+bm2.mod.etc.name.noName=Name does not exist!
+bm2.mod.etc.name.error=Encountered error while performing name lookup.

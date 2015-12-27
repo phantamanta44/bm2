@@ -21,54 +21,83 @@ public class NameLookup implements IFuture<NameHistory> {
 	private static final String ID_REQ = "https://api.mojang.com/users/profiles/minecraft/%s";
 	private static final String HIST_REQ = "https://api.mojang.com/user/profiles/%s/names";
 	
+	private String name;
+	private UUID id;
 	private boolean done = false;
 	private Consumer<NameHistory> callback;
 	private NameHistory result;
 	
 	public NameLookup(String name) {
-		requestId(name);
+		this.name = name;
 	}
 	
 	public NameLookup(UUID id) {
-		requestHist(id.toString().replaceAll("-", ""));
+		this.id = id;
+	}
+	
+	@Override
+	public void dispatch() {
+		if (this.id != null)
+			requestHist(this.id.toString().replaceAll("-", ""));
+		else if (this.name != null)
+			requestId(this.name);
+		else
+			throw new IllegalStateException("Improperly constructed NameLookup!");
 	}
 	
 	private void requestId(String name) {
-		try {
-			JsonParser parser = new JsonParser();
-			BufferedReader in = new BufferedReader(new InputStreamReader(new URL(String.format(ID_REQ, name)).openStream()));
-			JsonObject idResp = parser.parse(in).getAsJsonObject();
-			in.close();
-			if (idResp.get("error") != null) {
-				finish(new NameEntry[0]);
-				return;
+		new Thread("bm2namelookup") {
+			@Override
+			public void run() {
+				try {
+					JsonParser parser = new JsonParser();
+					BufferedReader in = new BufferedReader(new InputStreamReader(new URL(String.format(ID_REQ, name)).openStream()));
+					JsonObject idResp = parser.parse(in).getAsJsonObject();
+					in.close();
+					if (idResp.get("error") != null) {
+						finish(new NameEntry[0]);
+						return;
+					}
+					requestHist(idResp.get("id").getAsString());
+				} catch (Exception e) {
+					BM2.warn("Could not complete name lookup!");
+					e.printStackTrace();
+					finish(null);
+				}
 			}
-			requestHist(idResp.get("id").getAsString());
-		} catch (Exception e) {
-			BM2.warn("Could not complete name lookup!");
-			e.printStackTrace();
-			finish(null);
-		}
+		}.start();
 	}
 	
 	private void requestHist(String id) {
-		try {
-			JsonParser parser = new JsonParser();
-			BufferedReader in = new BufferedReader(new InputStreamReader(new URL(String.format(HIST_REQ, id)).openStream()));
-			JsonArray histResp = parser.parse(in).getAsJsonArray();
-			in.close();
-			NameEntry[] hist = StreamUtils.streamify(histResp, histResp.size(), (h, i) -> h.get(i).getAsJsonObject())
-				.map(j -> {
-					long changeDate = j.has("changeDate") ? j.get("changeDate").getAsLong() : 0L;
-					return new NameEntry(j.get("name").getAsString(), changeDate);
-				})
-				.toArray(len -> new NameEntry[len]);
-			finish(hist);
-		} catch (Exception e) {
-			BM2.warn("Could not complete name lookup!");
-			e.printStackTrace();
-			finish(null);
-		}
+		new Thread("bm2namelookup") {
+			@Override
+			public void run() {
+				try {
+					JsonParser parser = new JsonParser();
+					BufferedReader in = new BufferedReader(new InputStreamReader(new URL(String.format(HIST_REQ, id)).openStream()));
+					JsonArray histResp = parser.parse(in).getAsJsonArray();
+					in.close();
+					NameEntry[] hist = StreamUtils.streamify(histResp, histResp.size(), (h, i) -> h.get(i).getAsJsonObject())
+						.map(j -> {
+							long changeDate = j.has("changedToAt") ? j.get("changedToAt").getAsLong() : 0L;
+							return new NameEntry(j.get("name").getAsString(), changeDate);
+						})
+						.toArray(len -> new NameEntry[len]);
+					finish(hist);
+				} catch (Exception e) {
+					BM2.warn("Could not complete name lookup!");
+					e.printStackTrace();
+					finishNull();
+				}
+			}
+		}.start();
+	}
+	
+	private void finishNull() {
+		this.result = null;
+		if (this.callback != null)
+			this.callback.accept(null);
+		this.done = true;
 	}
 	
 	private void finish(NameEntry[] resp) {
@@ -89,7 +118,7 @@ public class NameLookup implements IFuture<NameHistory> {
 	}
 
 	@Override
-	public IFuture<NameHistory> promise(Consumer<NameHistory> callback) {
+	public NameLookup promise(Consumer<NameHistory> callback) {
 		this.callback = callback;
 		return this;
 	}

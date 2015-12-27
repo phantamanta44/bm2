@@ -10,4 +10,6 @@ public interface IFuture<T> {
 	
 	public IFuture<T> promise(Consumer<T> callback);
 	
+	public void dispatch();
+	
 }

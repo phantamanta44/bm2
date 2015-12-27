@@ -36,7 +36,7 @@ public class WorldJoinHandler {
 			if (currentIp != newIp)
 				TPTimer.clear();
 			currentIp = newIp;
-		});
+		}).dispatch();
 	}
 	
 }

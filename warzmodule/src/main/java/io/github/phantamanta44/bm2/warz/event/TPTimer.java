@@ -31,7 +31,7 @@ public class TPTimer {
 			Matcher m = Pattern.compile("wait (\\d*) seconds").matcher(r[0]);
 			m.find();
 			timer.schedule(new TPNotifyTask(), Integer.parseInt(m.group(1)));
-		});
+		}).dispatch();
 	}
 	
 	private static class TPNotifyTask extends TimerTask {

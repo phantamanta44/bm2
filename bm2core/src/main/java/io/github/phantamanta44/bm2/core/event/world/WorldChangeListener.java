@@ -17,7 +17,7 @@ public class WorldChangeListener {
 			new CommandSwallower("/ip", "^Server Address: (\\d+\\.)?(\\S*\\.)+\\w{2,4}$").promise(response -> {
 				checkPending = false;
 				ModuleManager.ipUpdate(response[0].substring(16));				
-			});
+			}).dispatch();
 		}
 	}
 	
