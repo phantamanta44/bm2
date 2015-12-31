@@ -147,7 +147,7 @@ public class HudInfo implements IListener {
 		int widthS = barWidth - Math.abs(shift - barWidth);
 		
 		GlStateManager.enableBlend();
-		int top = height - 32 + 3;
+		int top = height - 28;
 		int left = width / 2- 91;
 		gig.drawTexturedModalRect(Math.max(left, left + shiftN), top, -Math.min(shiftN, 0), 27, widthN, 4);
 		gig.drawTexturedModalRect(Math.max(left, left + shiftS), top, -Math.min(shiftS, 0), 36, widthS, 4);
