@@ -2,6 +2,8 @@ package io.github.phantamanta44.bm2.warz.gui;
 
 import io.github.phantamanta44.bm2.core.event.IListener;
 import io.github.phantamanta44.bm2.core.event.chat.CommandSwallower;
+import io.github.phantamanta44.bm2.core.lang.Lang;
+import io.github.phantamanta44.bm2.warz.WarZLang;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -58,28 +61,28 @@ public class HudInfo implements IListener {
 		fr.drawString(formattedTime, 2.4F, 2.4F, 0xff1d1d1d, false);
 		fr.drawString(formattedTime, 2, 2, 0xffffffff);
 		GlStateManager.scale(0.25F, 0.25F, 0.25F);
-		fr.drawStringWithShadow("To Next Restock", 92, 8, 0xffffffff);
+		fr.drawStringWithShadow(Lang.get(WarZLang.HUD_RESTOCK), 92, 8, 0xffffffff);
 		GlStateManager.popMatrix();
 		
 		List<String> warn = new ArrayList<String>();
 		
 		if (this.mc.thePlayer.experience <= 0.26)
-			warn.add("Thirst Low!");
+			warn.add(Lang.get(WarZLang.WARN_THIRST));
 		
 		if (this.mc.thePlayer.getFoodStats().getFoodLevel() <= 9)
-			warn.add("Hunger Low!");
+			warn.add(Lang.get(WarZLang.WARN_HUNGER));
 		
 		PotionEffect pe;
 		
 		if ((pe = this.mc.thePlayer.getActivePotionEffect(Potion.hunger)) != null)
-			warn.add("Infected! §7[" + secToString((int)((float)pe.getDuration() / 20)) + "]");
+			warn.add(String.format("%s %s[%s]", Lang.get(WarZLang.WARN_INFECTION), EnumChatFormatting.GRAY, secToString((int)((float)pe.getDuration() / 20))));
 		
 		if ((pe = this.mc.thePlayer.getActivePotionEffect(Potion.blindness)) != null) {
-			warn.add("Blinded! §7[" + secToString((int)((float)pe.getDuration() / 20)) + "]");
+			warn.add(String.format("%s %s[%s]", Lang.get(WarZLang.WARN_BLIND), EnumChatFormatting.GRAY, secToString((int)((float)pe.getDuration() / 20))));
 		}
 		
 		if (this.mc.thePlayer.isBurning()) {
-			String warning = "Ignited!";
+			String warning = Lang.get(WarZLang.WARN_FIRE);
 			if (this.mc.thePlayer.getEntityData().hasKey("Fire"))
 				warning += " §7[" + secToString((int)((float)this.mc.thePlayer.getEntityData().getShort("Fire") / 20)) + "]";
 			warn.add(warning);
@@ -91,7 +94,7 @@ public class HudInfo implements IListener {
 		this.drawThirst(xBounds, yBounds, this.mc.thePlayer);
 		this.drawDirectionHud(xBounds, yBounds, this.mc.thePlayer);
 		
-		fr.drawStringWithShadow("Zone " + getZone(), 4, yBounds - fr.FONT_HEIGHT - 4, 0xffececec);
+		fr.drawStringWithShadow(String.format("%s %s", Lang.get(WarZLang.HUD_ZONE), getZone()), 4, yBounds - fr.FONT_HEIGHT - 4, 0xffececec);
 	}
 	
 	private void renderWarns(List<String> w, int xBounds, FontRenderer fr) {
@@ -171,7 +174,7 @@ public class HudInfo implements IListener {
 					currentZone = m.group(2);
 				}).dispatch();
 			}
-			return "Unknown";
+			return Lang.get(WarZLang.HUD_ZONE_UNK);
 		}
 		return currentZone;
 	}
