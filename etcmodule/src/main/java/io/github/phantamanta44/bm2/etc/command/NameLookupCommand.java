@@ -19,11 +19,10 @@ import net.minecraft.util.EnumChatFormatting;
 
 import com.google.common.collect.Lists;
 
-
-
 @SuppressWarnings("rawtypes")
 public class NameLookupCommand implements ICommand {
 
+	private static final List ALIASES = Lists.newArrayList("nmc");
 	private static final String USERNAME_REGEX = "[a-zA-Z0-9_]{3,16}";
 	private static final String RESP_HEADER = EnumChatFormatting.AQUA + "<== %s ========>";
 	private static final String RESP_DATA = EnumChatFormatting.GRAY + "%s" + EnumChatFormatting.DARK_GRAY + " | " + EnumChatFormatting.GRAY + "%s";
@@ -46,7 +45,7 @@ public class NameLookupCommand implements ICommand {
 
 	@Override
 	public List getAliases() {
-		return Lists.newArrayList("nmc");
+		return ALIASES;
 	}
 
 	@Override
