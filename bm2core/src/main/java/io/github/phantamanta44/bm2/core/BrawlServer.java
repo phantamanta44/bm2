@@ -44,7 +44,7 @@ public enum BrawlServer {
 			|| Arrays.stream(values())
 			.anyMatch(s -> ip.matches(s.getIpRegex()))
 			|| Arrays.stream(DIRECT_IPS)
-			.anyMatch(i -> ip.trim().equalsIgnoreCase(i));
+			.anyMatch(ip.trim()::equalsIgnoreCase);
 	}
 	
 }
