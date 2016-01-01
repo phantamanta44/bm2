@@ -2,6 +2,7 @@ package io.github.phantamanta44.bm2.warz.gui;
 
 import io.github.phantamanta44.bm2.core.event.IListener;
 import io.github.phantamanta44.bm2.core.util.Vector2;
+import io.github.phantamanta44.bm2.warz.WarZModule;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ import com.google.common.collect.Lists;
 @SuppressWarnings("unchecked")
 public class HudCompass implements IListener {
 	
-	private static final ResourceLocation COMPASS_LOC = new ResourceLocation("core_warz", "textures/gui/compass.png");
+	private static final ResourceLocation COMPASS_LOC = new ResourceLocation(WarZModule.MOD_ID, "textures/gui/compass.png");
 	private static final double TWOPI = Math.PI * 2;
 	
 	private Minecraft mc;

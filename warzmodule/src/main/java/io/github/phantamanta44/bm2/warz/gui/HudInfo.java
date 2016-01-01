@@ -4,6 +4,7 @@ import io.github.phantamanta44.bm2.core.event.IListener;
 import io.github.phantamanta44.bm2.core.event.chat.CommandSwallower;
 import io.github.phantamanta44.bm2.core.lang.Lang;
 import io.github.phantamanta44.bm2.warz.WarZLang;
+import io.github.phantamanta44.bm2.warz.WarZModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import org.lwjgl.opengl.GL11;
 
 public class HudInfo implements IListener {
 	
-	private static final ResourceLocation WARZ_WIDGETS = new ResourceLocation("core_warz", "textures/gui/widgets.png");
+	private static final ResourceLocation WARZ_WIDGETS = new ResourceLocation(WarZModule.MOD_ID, "textures/gui/widgets.png");
 	
 	private Minecraft mc;
 	

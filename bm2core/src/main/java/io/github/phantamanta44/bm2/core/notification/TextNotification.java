@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class TextNotification implements INotification {
 
-	private static final ResourceLocation resLoc = new ResourceLocation(BM2Const.MOD_ID, "textures/gui/textNot.png");
+	private static final ResourceLocation NOT_BG = new ResourceLocation(BM2Const.MOD_ID, "textures/gui/textNot.png");
 	
 	private final String text;
 	private final int ttl;
@@ -77,7 +77,7 @@ public class TextNotification implements INotification {
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, fade);
-		this.mc.getTextureManager().bindTexture(resLoc);
+		this.mc.getTextureManager().bindTexture(NOT_BG);
 		wr.startDrawingQuads();
 		wr.addVertexWithUV(0D, (double)y + this.getHeight(), -90D, 0D, 1D);
 		wr.addVertexWithUV(102D, (double)y + this.getHeight(), -90D, 1D, 1D);
