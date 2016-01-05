@@ -27,10 +27,12 @@ public class IniData implements IPropertyMap {
 		streamIn.close();
 	}
 	
+	@Override
 	public String get(String key) {
 		return this.properties.get(key);
 	}
 	
+	@Override
 	public String getSafely(String key) {
 		if (this.properties.containsKey(key))
 			return get(key);

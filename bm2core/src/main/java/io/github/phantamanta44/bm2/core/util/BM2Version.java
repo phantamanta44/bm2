@@ -1,6 +1,6 @@
 package io.github.phantamanta44.bm2.core.util;
 
-public class BM2Version {
+public class BM2Version implements Comparable<BM2Version> {
 	
 	public final int major, minor, patch;
 	
@@ -22,6 +22,15 @@ public class BM2Version {
 	@Override
 	public String toString() {
 		return String.format("%d.%d.%d", this.major, this.minor, this.patch);
+	}
+
+	@Override
+	public int compareTo(BM2Version b) {
+		if (this.major != b.major)
+			return this.major - b.major;
+		if (this.minor != b.minor)
+			return this.minor - b.minor;
+		return this.patch - b.patch;
 	}
 	
 }
