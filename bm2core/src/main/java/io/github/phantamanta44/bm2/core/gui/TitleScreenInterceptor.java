@@ -1,6 +1,5 @@
 package io.github.phantamanta44.bm2.core.gui;
 
-import io.github.phantamanta44.bm2.core.BM2;
 import io.github.phantamanta44.bm2.core.BM2Const;
 import io.github.phantamanta44.bm2.core.lang.Lang;
 import io.github.phantamanta44.bm2.core.module.ModuleManager;
@@ -18,11 +17,6 @@ public class TitleScreenInterceptor {
 	@SubscribeEvent
 	public void drawingGuiScreen(DrawScreenEvent.Post event) {
 		if (event.gui instanceof GuiMainMenu) {
-			try {
-				//BM2.info(Class.forName("io.github.phantamanta44.bm2.war.WarModule").getName());
-			} catch (Exception e) {
-				BM2.warn(e.getMessage());
-			}
 			FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 			String textLine1 = String.format(Lang.get(Lang.MM_VERSION), BM2Const.MOD_VERS.toString());
 			String textLine2 = String.format(Lang.get(Lang.MM_MODCOUNT), ModuleManager.getModuleCount());
