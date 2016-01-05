@@ -5,10 +5,12 @@ import io.github.phantamanta44.bm2.etc.EtcLang;
 import io.github.phantamanta44.bm2.etc.NameLookup;
 
 import java.text.DateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -19,7 +21,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 import com.google.common.collect.Lists;
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class NameLookupCommand implements ICommand {
 
 	private static final List ALIASES = Lists.newArrayList("nmc");
@@ -76,7 +78,9 @@ public class NameLookupCommand implements ICommand {
 
 	@Override
 	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return Collections.EMPTY_LIST;
+		return (List)Minecraft.getMinecraft().getNetHandler().func_175106_d().stream()
+				.map(n -> ((NetworkPlayerInfo)n).getGameProfile().getName())
+				.collect(Collectors.toList());
 	}
 
 	@Override

@@ -7,7 +7,6 @@ import io.github.phantamanta44.bm2.etc.command.LennyCommand;
 import io.github.phantamanta44.bm2.etc.command.NameLookupCommand;
 import io.github.phantamanta44.bm2.etc.command.ShrugCommand;
 import io.github.phantamanta44.bm2.etc.event.chat.ChatHandler;
-import io.github.phantamanta44.bm2.etc.friend.FriendManager;
 import io.github.phantamanta44.bm2.etc.gui.HudInterceptor;
 import net.minecraftforge.client.ClientCommandHandler;
 
@@ -30,18 +29,18 @@ public class EtcModule extends BM2Module {
 	
 	@Override
 	public void onUnload() {
-		FriendManager.disableUpdates();
+		//FriendManager.disableUpdates(); Unused
 	}
 	
 	@Override
 	public void onEnable() {
-		FriendManager.enableUpdates();
-		FriendManager.updateFriendList();
+		//FriendManager.enableUpdates();
+		//FriendManager.updateFriendList();
 	}
 	
 	@Override
 	public void onDisable() {
-		FriendManager.disableUpdates();
+		//FriendManager.disableUpdates();
 	}
 
 }
