@@ -7,5 +7,6 @@ public class PvPLang {
 	public static final String ARMOR_CHEST = "bm2.mod.spvp.armor.chest";
 	public static final String ARMOR_LEGS = "bm2.mod.spvp.armor.legs";
 	public static final String ARMOR_BOOTS = "bm2.mod.spvp.armor.boots";
+	public static final String ARMOR_HAND = "bm2.mod.spvp.armor.hand";
 	
 }

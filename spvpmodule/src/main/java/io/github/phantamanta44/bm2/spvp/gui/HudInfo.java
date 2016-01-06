@@ -16,6 +16,7 @@ import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
@@ -78,6 +79,17 @@ public class HudInfo implements IListener {
 				}
 				yVal.setValue(yVal.getValue() - 1);
 			});
+		
+		ItemStack hand = pl.getCurrentEquippedItem();
+		if (hand == null) 
+			fr.drawStringWithShadow(String.format(Lang.get(PvPLang.ARMOR_NONE), Lang.get(PvPLang.ARMOR_HAND)), 2, fr.FONT_HEIGHT * 5 + 12, 0x555555);
+		else if (hand.getMaxDamage() != 0) {
+			int hDmg= hand.getItemDamage(), hMaxDmg = hand.getMaxDamage();
+			int hColour = Color.HSBtoRGB(0.32F - (0.32F * (float)hDmg / (float)hMaxDmg), 1F, 1F);
+			fr.drawStringWithShadow(String.format("[%s/%s]%s %s", hMaxDmg - hDmg, hMaxDmg, EnumChatFormatting.WHITE, hand.getDisplayName()), 2, fr.FONT_HEIGHT * 5 + 12, hColour);
+		}
+		else
+			fr.drawStringWithShadow(String.format("%s x %s", hand.getDisplayName(), hand.stackSize), 2, fr.FONT_HEIGHT * 5 + 12, 0xFFFFFF);
 		
 		yVal.setValue(2);
 		final int yOff = 18 / 2 - fr.FONT_HEIGHT / 2;
